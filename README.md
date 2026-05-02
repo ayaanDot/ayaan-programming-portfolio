@@ -1,4 +1,4 @@
-# Hi, I'm Ayaan 👾
+# Hi, I'm Ayaan
 
 **Self-taught game developer · 15 years old · South Australia**
 
@@ -10,7 +10,7 @@ Now working in ES6 with proper file structure, classes, and design documents.
 
 ---
 
-## 🎮 Main project — Speed Dodger
+## Main project — Speed Dodger
 
 > *A 2D game where the only information you get is speed.*
 > Slow things are safe. Fast things are dangerous.
@@ -18,10 +18,6 @@ Now working in ES6 with proper file structure, classes, and design documents.
 
 The project includes a full game design document (`DESIGN.md`) with custom coined terminology,
 a mechanic breakdown, level design plans, and a dev journal.
-
-📄 [Read DESIGN.md](https://github.com/YOUR_GITHUB_USERNAME/speed-dodger/blob/main/DESIGN.md)
-&nbsp;&nbsp;·&nbsp;&nbsp;
-💻 [View the code](https://github.com/YOUR_GITHUB_USERNAME/speed-dodger)
 
 ---
 
@@ -45,11 +41,3 @@ a mechanic breakdown, level design plans, and a dev journal.
 - **Learning right now:** Class-based architecture, delta time, game feel
 
 ---
-
-## 📬 Contact
-
-Applying for work experience at **Mighty Kingdom** (Year 10, 2026).
-
-🌐 [Portfolio site](https://YOUR_GITHUB_USERNAME.github.io)
-&nbsp;&nbsp;·&nbsp;&nbsp;
-📧 YOUR_EMAIL_HERE

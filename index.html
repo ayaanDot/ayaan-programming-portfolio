@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ayaan — Game Developer</title>
+
+  <!--
+    FONTS
+    Oxanium   → headings (game-ish, distinctive)
+    DM Sans   → body text (clean, easy to read)
+    Fira Code → labels and tags (monospace = coder feel)
+    All loaded from Google Fonts, no install needed.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+
+    /* ══════════════════════════════════════════
+       DESIGN TOKENS
+       Change these variables and the whole
+       site updates automatically.
+       These colours come from Speed Dodger's
+       own palette — the portfolio matches the game.
+    ══════════════════════════════════════════ */
+    :root {
+      --bg:       #150018;   /* Very dark purple — page background        */
+      --bg2:      #1f0028;   /* Slightly lighter — used in cards          */
+      --card:     rgba(255, 255, 255, 0.04); /* Subtle card background    */
+      --border:   rgba(250, 150, 0, 0.18);  /* Amber-tinted border        */
+      --amber:    #FA9600;   /* Main accent — used everywhere             */
+      --amber-lt: #FFB840;   /* Lighter amber — hover states              */
+      --accent:   #FAFA64;   /* Yellow — used in gradient only            */
+      --text:     #edddf8;   /* Primary text colour                       */
+      --text-2:   #9678aa;   /* Muted/secondary text colour               */
+      --radius:   12px;      /* Default border-radius for cards           */
+    }
+
+    /* ══════════════════════════════════════════
+       RESET
+       Removes default browser spacing so we
+       start from a clean slate.
+    ══════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box; /* Width includes padding — much easier to work with */
+    }
+
+    html {
+      scroll-behavior: smooth; /* Clicking nav links scrolls instead of jumping */
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════════════════
+       LAYOUT WRAPPER
+       .wrap centres content and limits
+       how wide it gets on large screens.
+       max-width: 800px keeps paragraphs
+       readable — long lines are tiring to read.
+    ══════════════════════════════════════════ */
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ══════════════════════════════════════════
+       ① NAV BAR
+       position: fixed keeps it at the top
+       even when you scroll down.
+       backdrop-filter: blur makes the background
+       slightly frosted like glass.
+    ══════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 99; /* Sits above everything else */
+      background: rgba(21, 0, 24, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px; /* Fixed height for the nav bar */
+    }
+
+    nav .logo {
+      font-family: 'Oxanium', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      font-size: 0.78rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s; /* Smooth colour change on hover */
+    }
+
+    nav ul a:hover { color: var(--amber); }
+
+    /* ══════════════════════════════════════════
+       BUTTONS
+       Two styles:
+       .btn-primary  → filled amber (main action)
+       .btn-secondary → outline only (secondary)
+    ══════════════════════════════════════════ */
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: #150018; /* Dark text on amber so it's readable */
+    }
+    .btn-primary:hover { background: var(--amber-lt); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION BASE STYLES
+       All sections get padding so they don't
+       sit right against each other.
+       section-label is the small uppercase tag
+       above each heading.
+    ══════════════════════════════════════════ */
+    section {
+      padding: 6rem 0;
+    }
+
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    h2 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem); /* Scales with screen width */
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+    }
+
+    /* ══════════════════════════════════════════
+       ② HERO SECTION
+       min-height: 100vh fills the full screen.
+       The ::before and ::after pseudo-elements
+       add glowing blobs in the background —
+       pure CSS, no images needed.
+    ══════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 56px; /* Offset for the fixed nav */
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Purple glow — top left */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -180px;
+      left: -180px;
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, rgba(100, 0, 120, 0.35) 0%, transparent 70%);
+      pointer-events: none; /* Doesn't block clicks */
+    }
+
+    /* Amber glow — bottom right */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(250, 150, 0, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .hero-name {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+
+    /* The amber part of the name */
+    .hero-name em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap; /* Buttons wrap on small screens */
+    }
+
+    /* ══════════════════════════════════════════
+       ③ ABOUT SECTION
+    ══════════════════════════════════════════ */
+    #about p {
+      color: var(--text-2);
+      max-width: 600px;
+      margin-bottom: 1rem;
+    }
+
+    #about p:last-child {
+      margin-bottom: 0;
+    }
+
+    #about strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════════
+       ④ FEATURED PROJECT CARD
+       The amber gradient line at the top comes
+       from the ::before pseudo-element.
+    ══════════════════════════════════════════ */
+    .featured-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Amber-to-yellow gradient bar along the top of the card */
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--accent));
+    }
+
+    .featured-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.9rem;
+      display: block;
+    }
+
+    .featured-card h3 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    .featured-card > p {
+      color: var(--text-2);
+      max-width: 540px;
+      margin-bottom: 1.8rem;
+    }
+
+    .featured-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+    }
+
+    /* Small pill tags showing game design concepts */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+    }
+
+    /* ══════════════════════════════════════════
+       ⑤ PROJECT TIMELINE
+       Each card shifts right on hover using
+       transform: translateX — a small detail
+       that makes hovering feel satisfying.
+    ══════════════════════════════════════════ */
+    .projects-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.6rem;
+      display: grid;
+      grid-template-columns: 1fr auto; /* Text left, year right */
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: var(--border);
+      transform: translateX(5px); /* Slides right on hover */
+    }
+
+    .project-card h3 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .project-card p {
+      font-size: 0.85rem;
+      color: var(--text-2);
+    }
+
+    .project-year {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      white-space: nowrap; /* Year never wraps to a new line */
+    }
+
+    /* ══════════════════════════════════════════
+       ⑥ FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      margin-bottom: 0.3rem;
+    }
+
+    footer a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+       On small screens (phones), hide the nav
+       links and shrink the heading.
+    ══════════════════════════════════════════ */
+    @media (max-width: 580px) {
+      nav ul { display: none; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════
+       ① NAV BAR
+       Replace ayaanDot with your
+       actual GitHub username everywhere below.
+  ══════════════════════════════════════════ -->
+  <nav>
+    <div class="wrap">
+      <a class="logo" href="#hero">AYAAN</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#featured">Speed Dodger</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="https://github.com/ayaanDot" target="_blank">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       ② HERO
+  ══════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="wrap">
+      <p class="hero-label">Game Developer · South Australia · Year 10</p>
+      <h1 class="hero-name">Hi, I am <em>Ayaan.</em></h1>
+      <p class="hero-bio">
+        15 year old self directed developer.<br>
+        I enjoy both the logic and design side of programming.<br>
+        I like turning creative ideas into real systems.<br>
+        Right now, I build browser games in JavaScript and p5.js.<br>
+      </p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#featured">See my work</a>
+        <a class="btn btn-secondary" href="https://github.com/ayaanDot" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ③ ABOUT
+  ══════════════════════════════════════════ -->
+  <section id="about">
+    <div class="wrap">
+      <span class="section-label">About me</span>
+        <h2>Journey with code.</h2>
+
+        <p>
+        I started with block coding at 9 on Hopscotch.<br>
+        That’s where my interest in coding started.<br>
+        At 12, I moved to p5.js ES5 on Khan Academy.<br>
+        That’s when I built my first game using a text based language, 
+        and was introduced to key coding concepts (like modular design).<br>
+        I started thinking in code, not just typing it.
+        </p>
+
+        <p>
+        Now I work in p5.js ES6 in the browser: multiple source files, classes, design documents, and a dev journal I actually keep.<br>
+        I am learning how to use proper dev tools and starting to learn C++.<br>
+        </p>
+
+        <p>
+        I enjoy building things file by file, object by object, function by function, and line by line because it is fun.
+        </p>
+
+        <p>
+        Outside of code I'm into drama, writing, science, visual art, and language.<br>
+        I am also making a constructed language with my little sister.
+        </p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ④ FEATURED PROJECT
+       Update the two href links to point to
+       your actual DESIGN.md and GitHub repo.
+  ══════════════════════════════════════════ -->
+  <section id="featured">
+    <div class="wrap">
+      <span class="section-label">Featured project</span>
+      <h2>Speed Dodger</h2>
+
+      <div class="featured-card">
+        <span class="featured-tag">★ Main project · p5.js ES6 · In development · 2026</span>
+
+        <h3>Speedentify or DIE.</h3>
+
+        <p>
+          I coined the term <strong>“Speedentify”</strong>, identifying something based on speed alone.
+          That's the core of the game.
+          You dodge fast Embers and catch slow ones, but they all look identical.<br>
+          Speed is your only clue.
+        </p>
+
+        <div class="featured-links">
+
+          <a class="btn btn-primary"
+            href="https://github.com/ayaanDot/speed-dodger/blob/main/docs/DESIGN.md"
+            target="_blank">
+            View Design Doc ↗
+          </a>
+
+          <a class="btn btn-secondary"
+            href="https://www.khanacademy.org/computer-programming/speed-dodger-prototype/4652084209041408"
+            target="_blank">
+            Play Original Prototype ↗
+          </a>
+
+          <a class="btn btn-secondary"
+            href="https://github.com/ayaanDot/speed-dodger/blob/main/docs/src"
+            target="_blank">
+            View code ↗
+          </a>
+
+          <a class="btn btn-secondary"
+            href="https://ayaandot.github.io/speed-dodger/"
+            target="_blank">
+            Play Latest Build (WIP) ↗
+          </a>
+
+        </div>
+
+        <div class="pills">
+          <span class="pill">Speedentification</span>
+          <span class="pill">Slow is safe · fast is dangerous</span>
+          <span class="pill">Full game design doc</span>
+          <span class="pill">Custom coined terminology</span>
+          <span class="pill">Dev journal</span>
+          <span class="pill">ES6 class structure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ⑤ PROJECT TIMELINE
+       Each .project-card is a link — replace
+       the href values with your Khan Academy
+       or GitHub links.
+       Wrap the oldest one in a <div> with
+       style="opacity:0.6" if you want it to
+       look slightly faded as a prototype note.
+  ══════════════════════════════════════════ -->
+  <section id="projects">
+    <div class="wrap">
+      <span class="section-label">All projects</span>
+      <h2>Everything I've built.</h2>
+
+      <div class="projects-grid">
+
+        <a class="project-card" href="https://www.khanacademy.org/computer-programming/laser-breaker/5533668236967936" target="_blank">
+          <div>
+            <h3>Laser Breaker</h3>
+            <p>Full screen lasers you can't go around. You use the rebound mechanic to teleport through the edges and dodge them.</p>
+          </div>
+          <span class="project-year">2025</span>
+        </a>
+
+        <a class="project-card" href="https://www.khanacademy.org/computer-programming/x-and-y-square-teleport/5435241394192384" target="_blank">
+          <div>
+            <h3>XY Square Teleport</h3>
+            <p>Click to teleport a puppet square along one axis at a time (shortest axis) while dodging incoming bullets.</p>
+          </div>
+          <span class="project-year">2025</span>
+        </a>
+
+        <a class="project-card" href="https://www.khanacademy.org/computer-programming/table-tennis-serve-calculator-prototype/5743904763789312" target="_blank">
+          <div>
+            <h3>Table Tennis Serve Calculator</h3>
+            <p>School project. Input the scores and it tells you who is meant to serve. Got an A+.</p>
+          </div>
+          <span class="project-year">2025</span>
+        </a>
+
+        <a class="project-card" href="https://www.khanacademy.org/computer-programming/speed-dodger-prototype/4652084209041408" target="_blank">
+          <div>
+            <h3>Speed Dodger v1
+              <span style="opacity:0.45; font-size:0.8rem; font-weight:400"> — prototype</span>
+            </h3>
+            <p>My first p5.js game! Fast ellipses kill you, slow ones give points. They look identical. The core idea being the same.</p>
+          </div>
+          <span class="project-year">2023</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ⑥ FOOTER
+  ══════════════════════════════════════════ -->
+  <footer>
+    <div class="wrap">
+      <p>Made by <strong>Ayaan</strong> · Year 10 · South Australia · 2026</p>
+      <p>
+        <a href="https://github.com/ayaanDot" target="_blank">
+          github.com/ayaanDot
+        </a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

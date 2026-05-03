@@ -1,13 +1,14 @@
 # Hi, I am Ayaan
 
-## Quick Start
-You can view my portfolio at:<br>
-https://ayaanDot.github.io/ayaan-programming-portfolio/<br>
-(please 🥺)
+## Portfolio
+View my portfolio at:  
+https://ayaanDot.github.io/ayaan-programming-portfolio/
+
+---
 
 ## About
-Self directed developer.
-Learning both coding and design because that is what I enjoy.
-My main current project is **Speed Dodger**. 
-A 2d game where you have to identify things based on speed.
-Slow is safe, fast is *Dangerous* .
+Self-directed developer focused on what I enjoy: coding and design.
+
+My main current project is **Speed Dodger**.  
+A 2D game where you have to identify things based on speed.  
+Slow is safe. Fast is dangerous.

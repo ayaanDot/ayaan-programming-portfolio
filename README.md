@@ -2,7 +2,7 @@
 
 ## Portfolio
 View my portfolio at:  
-https://ayaanDot.github.io/ayaan-programming-portfolio/
+https://ayaandot.github.io/ayaan-programming-portfolio/
 
 ---
 

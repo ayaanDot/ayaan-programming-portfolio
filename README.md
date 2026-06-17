@@ -2,7 +2,7 @@
 
 ## Portfolio
 View my portfolio at:  
-https://ayaandot.github.io/ayaan-programming-portfolio/
+https://ayaanart.github.io/ayaan-programming-portfolio/
 
 > This README is just a quick overview.  
 > To see my full portfolio, use the link above.
